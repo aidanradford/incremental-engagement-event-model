@@ -1,0 +1,18 @@
+:targets:
+  - :name:
+    :type:           "redshift"
+    :host:
+    :database:
+    :port:
+    :username:       "datamodeling"
+    :password:       {{secret "redshift-datamodeling-password"}}
+:variables:
+    :input_schema:   atomic
+    :output_schema:  web
+    :start_date:     2020-03-15
+:steps:
+  - :name: 00a-setup-engagement-manifest
+    :queries:
+      - :name: 00a-setup-engagement-manifest
+        :file: incremental-web-model/00-setup/00a-setup-engagement-manifest.sql
+        :template: true

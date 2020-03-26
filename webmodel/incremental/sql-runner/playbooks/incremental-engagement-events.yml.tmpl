@@ -1,0 +1,50 @@
+:targets:
+  - :name:
+    :type:           "redshift"
+    :host:
+    :database:
+    :port:
+    :username:       "datamodeling"
+    :password:       {{secret "redshift-datamodeling-password"}}
+:variables:
+    :input_schema:   atomic
+    :scratch_schema: scratch
+    :output_schema:  web
+    :update_cadence: 1 week
+    :start_date:     2020-03-15
+:steps:
+  - :name: 00-setup-engagement-summary
+    :queries:
+      - :name: 00-setup-engagement-summary
+        :file: incremental-web-model/01a-engagement-summary/00-setup-engagement-summary.sql
+        :template: true
+  - :name: 01-select-etl-tstamps
+    :queries:
+      - :name: 01-select-etl-tstamps
+        :file: incremental-web-model/01a-engagement-summary/01-select-etl-tstamps.sql
+        :template: true
+  - :name: 02-event_ids
+    :queries:
+      - :name: 02-event_ids
+        :file: incremental-web-model/01a-engagement-summary/02-event_ids.sql
+        :template: true
+  - :name: 03-engagement-events
+    :queries:
+      - :name: 03-engagement-events
+        :file: incremental-web-model/01a-engagement-summary/03-engagement-events.sql
+        :template: true
+  - :name: 04-append-engagement-events
+    :queries:
+      - :name: 04-append-engagement-events
+        :file: incremental-web-model/01a-engagement-summary/04-append-engagement-events.sql
+        :template: true
+  - :name: 05-append-manifest
+    :queries:
+      - :name: 05-append-manifest
+        :file: incremental-web-model/01a-engagement-summary/05-append-manifest.sql
+        :template: true
+  - :name: 06-cleanup
+    :queries:
+      - :name: 06-cleanup
+        :file: incremental-web-model/01a-engagement-summary/06-cleanup.sql
+        :template: true
